@@ -1,0 +1,15 @@
+{
+  "name": "nw_prototype",
+  "version": "1.0.0",
+  "description": "Prototypes for Nations World",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "TDPApps",
+  "license": "ISC",
+  "dependencies": {
+    "js-sha512": "^0.7.1"
+  }
+}
