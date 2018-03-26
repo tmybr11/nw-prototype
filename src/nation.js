@@ -9,8 +9,6 @@ module.exports = class {
 
     let config = new Config();
 
-    console.log('test');
-
     this._uid = sha512(util.generateRandomKey());
     this._name = options.name;
     this._militaryPopulation = new Scout(config.get('INITIAL_MILITARY_POPULATION'), 1000);
