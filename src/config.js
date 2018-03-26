@@ -2,29 +2,37 @@ const fs = require('fs');
 
 module.exports = class {
 
-  constructor() {
+  read() {
 
-    fs.readFile('../data/config.dat', function(err, data) {
+    return new Promise((resolve, reject) => {
 
-      this._config = data.toString().trim().split('\n');
+      fs.readFile('./data/config.dat', (err, data) => {
+
+        if(err) reject(null);
+
+        resolve(data.toString().trim().split('\n'));
+
+      });
 
     });
 
   }
 
-  async init() {
-
-
-
-  }
-
   get(name) {
 
-    return this._config.filter(config => {
+    let prop = null;
 
-      return config.split(':')[0] === name;
+    this.read().then(data => {
 
-    }).split(':')[1];
+      prop = data.filter(config => {
+
+        return config.split(':')[0] === name;
+
+      }).toString().split(':')[1];
+
+    });
+
+    return prop;
 
   }
 

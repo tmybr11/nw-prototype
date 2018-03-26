@@ -2,6 +2,7 @@ const Config = require('./config.js');
 const util = require('./util.js');
 const Scout = require('./scout.js');
 const sha512 = require('js-sha512');
+const City = require('./city.js');
 
 module.exports = class {
 
