@@ -1,14 +1,15 @@
-var Nation = require('./src/nation.js');
-var Battle = require('./src/battle.js');
+const Nation = require('./src/nation.js');
+const Battle = require('./src/battle.js');
+const Config = require('./config.js');
 
-let myNation1 = new Nation({
-  name: 'Brazil',
-  capital: 'Brasilia'
-});
-let myNation2 = new Nation({
-  name: 'Argentina',
-  capital: 'Buenos Aires'
-});
+  let myNation1 = new Nation({
+    name: 'Brazil',
+    capital: 'Brasilia'
+  }, config);
+  let myNation2 = new Nation({
+    name: 'Argentina',
+    capital: 'Buenos Aires'
+  }, config);
 
 let nation1wincount = nation2wincount = nation1wincount2 = nation2wincount2 = 0;
 
