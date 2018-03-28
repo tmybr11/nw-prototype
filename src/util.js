@@ -1,12 +1,12 @@
 module.exports = {
 
-  generateRandomKey: function() {
+  generateRandomKey: () => {
 
     let str = '';
 
     for(let i = 0; i < 16; i++) {
 
-      str += String.fromCharCode(Math.floor(Math.random() * (122 - 97 + 1)) + 97);
+      str += String.fromCharCode(Math.floor(Math.random() * 26) + 97);
 
     }
 
@@ -14,10 +14,16 @@ module.exports = {
 
   },
 
-  generateRandomFloat: function(min, max) {
+  generateRandomFloat: (min, max) => {
 
     return ((Math.random() * max) + min);
 
   },
+
+  parseConfig: data => {
+
+    return data.toString().trim().split('\n');
+
+  }
 
 };

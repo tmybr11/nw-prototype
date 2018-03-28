@@ -1,41 +1,24 @@
-const fs = require('fs');
 
+'use strict';
+
+const fs = require('fs');
+const util = require('./util.js');
 const Config = require('./config.js');
 
 module.exports = function() {
 
-  let getConfig = function() {
+  let getConfig = new Promise((resolve, reject) => {
 
-    return new Promise((resolve, reject) => {
+    fs.readFile('./data/config.dat', (err, data) => {
 
-      fs.readFile('./data/config.dat', (err, data) => {
-
-        if(err) reject(null);
-
-        resolve(data.toString().trim().split('\n'));
-
-      });
+      if(err) return reject('Impossible to read configuration file');
+      
+      return resolve(new Config(util.parseConfig(data)));
 
     });
 
-  };
+  });
 
-  let getConfigTwo = function() {
-
-    return new Promise((resolve, reject) => {
-
-      fs.readFile('./data/config.dat', (err, data) => {
-
-        if(err) reject(null);
-
-        resolve(data.toString().trim().split('\n'));
-
-      });
-
-    });
-
-  };
-
-  return new Promise([])
+  return Promise.all([getConfig]);
 
 };

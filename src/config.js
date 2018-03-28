@@ -1,8 +1,15 @@
-const fs = require('fs');
 
-module.exports = class {
+'use strict';
 
-  get(name) {
+module.exports = class Config {
+
+  constructor(data) {
+
+    this._config = data;
+
+  }
+
+  getProp(name) {
 
     return this._config.filter(config => {
 
