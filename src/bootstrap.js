@@ -12,13 +12,25 @@ module.exports = function() {
     fs.readFile('./data/config.dat', (err, data) => {
 
       if(err) return reject('Impossible to read configuration file');
-      
+
       return resolve(new Config(util.parseConfig(data)));
 
     });
 
   });
 
-  return Promise.all([getConfig]);
+  let getDatabase = new Promise((resolve, reject) => {
+
+    fs.readFile('./data/database.dat', (err, data) => {
+
+      if(err) return reject('Impossible to read database config file');
+
+      return resolve(new Config(util.parseConfig(data)));
+
+    });
+
+  });
+
+  return Promise.all([getConfig, getDatabase]);
 
 };

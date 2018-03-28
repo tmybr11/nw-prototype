@@ -13,9 +13,9 @@ module.exports = class Config {
 
     return this._config.filter(config => {
 
-      return config.split(':')[0] === name;
+      return config.split(' ')[0] === name;
 
-    }).toString().split(':')[1];
+    }).toString().split(' ')[1];
 
   }
 
