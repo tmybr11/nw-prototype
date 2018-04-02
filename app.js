@@ -3,17 +3,22 @@
 
 const mongo = require('mongodb').MongoClient;
 const app = require('express')();
+const bodyParser = require('body-parser');
 
-const Nation = require('./src/nation.js');
+const api = require('./src/api.js');
+const bootstrap = require('./src/bootstrap.js');
 const Battle = require('./src/battle.js');
 const Config = require('./src/config.js');
-const bootstrap = require('./src/bootstrap.js');
+const Nation = require('./src/nation.js');
 
 bootstrap().then((config) => {
 
+  app.use(bodyParser.json());
+  //app.use(bodyParser.urlencoded({extended: true}));
+
   app.get('/', (req, res) => {
 
-    res.send('Hello');
+    console.log('heyhey');
 
   });
 
@@ -22,6 +27,8 @@ bootstrap().then((config) => {
     console.log('App listening on port 3000');
 
   });
+
+  app.use('/api', api);
 
   let myNation1 = new Nation({
     name: 'Brazil',
@@ -32,66 +39,25 @@ bootstrap().then((config) => {
     capital: 'Buenos Aires'
   }, config[0]);
 
-  console.log(config[1].getProp('MONGO_URL'));
-
-  mongo.connect(config[1].getProp('MONGO_URL'), (err, db) => {
-
-    if (err) throw err;
-
-    let dbo = db.db('nwmongo');
-
-    dbo.collection('nations').insertMany([myNation1, myNation2], (err, res) => {
-
-      if (err) throw err;
-
-      console.log("2 nations inserted!");
-
-      db.close();
-
-    });
-
-  });
-
-  // let nation1wincount = 0,
-  //     nation2wincount = 0,
-  //     nation1wincount2 = 0,
-  //     nation2wincount2 = 0;
+  // console.log(config[1].getProp('MONGO_URL'));
   //
-  // for(let i = 0; i < 100; i++) {
+  // mongo.connect(config[1].getProp('MONGO_URL'), (err, db) => {
   //
-  //   let battle = new Battle(myNation1, myNation2);
-  //   if(battle.start()) {
+  //   if (err) throw err;
   //
-  //     nation1wincount++;
+  //   let dbo = db.db('nwmongo');
   //
-  //   } else {
+  //   dbo.collection('nations').insertMany([myNation1, myNation2], (err, res) => {
   //
-  //     nation2wincount++;
+  //     if (err) throw err;
   //
-  //   }
+  //     console.log("2 nations inserted!");
   //
-  // }
+  //     db.close();
   //
-  // for(let i = 0; i < 100; i++) {
+  //   });
   //
-  //   let battle = new Battle(myNation2, myNation1);
-  //   if(battle.start()) {
-  //
-  //     nation1wincount2++;
-  //
-  //   } else {
-  //
-  //     nation2wincount2++;
-  //
-  //   }
-  //
-  // }
-  //
-  // console.log('Nation 1 won ' + nation1wincount + ' times');
-  // console.log('Nation 2 won ' + nation2wincount + ' times');
-  //
-  // console.log('Nation 1 won ' + nation1wincount2 + ' times when inverted');
-  // console.log('Nation 2 won ' + nation2wincount2 + ' times when inverted');
+  // });
 
 }).catch(err => {
 
