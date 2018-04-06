@@ -1,66 +1,55 @@
 
 'use strict';
 
-const mongo = require('mongodb').MongoClient;
+//Vendors
 const app = require('express')();
 const bodyParser = require('body-parser');
 
+//Utilities
 const api = require('./src/api.js');
-const bootstrap = require('./src/bootstrap.js');
-const Battle = require('./src/battle.js');
-const Config = require('./src/config.js');
-const Nation = require('./src/nation.js');
+const config = require('./src/config.js');
+const db = require('monk')(config.db.mongo_url);
 
-bootstrap().then((config) => {
+//Models
+const Battle = require('./src/model/battle.js');
+const Nation = require('./src/model/nation.js');
 
-  app.use(bodyParser.json());
-  //app.use(bodyParser.urlencoded({extended: true}));
+// //Controllers
+// const NationController = require('./src/controller/nation-controller.js');
 
-  app.get('/', (req, res) => {
+app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended: true}));
 
-    console.log('heyhey');
+app.get('/', (req, res) => {
 
-  });
+  console.log('heyhey');
 
-  app.listen(3000, () => {
+});
 
-    console.log('App listening on port 3000');
+db.then(() => {
+
+  app.use((req, res, next) => {
+
+    req.db = db;
+    next();
 
   });
 
   app.use('/api', api);
 
-  let myNation1 = new Nation({
-    name: 'Brazil',
-    capital: 'Brasilia'
-  }, config[0]);
-  let myNation2 = new Nation({
-    name: 'Argentina',
-    capital: 'Buenos Aires'
-  }, config[0]);
+  app.listen(3000, () => {
 
-  // console.log(config[1].getProp('MONGO_URL'));
-  //
-  // mongo.connect(config[1].getProp('MONGO_URL'), (err, db) => {
-  //
-  //   if (err) throw err;
-  //
-  //   let dbo = db.db('nwmongo');
-  //
-  //   dbo.collection('nations').insertMany([myNation1, myNation2], (err, res) => {
-  //
-  //     if (err) throw err;
-  //
-  //     console.log("2 nations inserted!");
-  //
-  //     db.close();
-  //
-  //   });
-  //
-  // });
+    console.log('Listening on port 3000');
 
-}).catch(err => {
+  });
 
-  console.log(err);
+}).catch((err) => { console.log(err); });
 
-});
+// let myNation1 = new Nation({
+//   name: 'Brazil',
+//   capital: 'Brasilia'
+// }, config.game);
+// let myNation2 = new Nation({
+//   name: 'Argentina',
+//   capital: 'Buenos Aires'
+// }, config.game);

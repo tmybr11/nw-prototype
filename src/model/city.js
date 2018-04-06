@@ -10,4 +10,10 @@ module.exports = class City {
 
   }
 
+  get isCapital() {
+
+    return this._isCapital;
+
+  }
+
 };
