@@ -44,12 +44,3 @@ db.then(() => {
   });
 
 }).catch((err) => { console.log(err); });
-
-// let myNation1 = new Nation({
-//   name: 'Brazil',
-//   capital: 'Brasilia'
-// }, config.game);
-// let myNation2 = new Nation({
-//   name: 'Argentina',
-//   capital: 'Buenos Aires'
-// }, config.game);

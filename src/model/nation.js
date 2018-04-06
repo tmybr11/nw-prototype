@@ -8,15 +8,16 @@ const City = require('./city.js');
 
 module.exports = class Nation {
 
-  constructor(options, config) {
+  constructor(options) {
 
     this._uid = sha512(util.generateRandomKey());
     this._name = options.name;
-    this._militaryPopulation = new Scout(config.initial_military_population, 1000);
-    this._population = new Scout(config.initial_population, 10000);
-    this._education = new Scout(config.initial_education, 1);
-    this._health = new Scout(config.initial_health, 1);
-    this._balance = config.initial_balance;
+    this._president = options.president;
+    this._militaryPopulation = new Scout(options.militaryPopulation, 1000);
+    this._population = new Scout(options.population, 10000);
+    this._education = new Scout(options.education, 1);
+    this._health = new Scout(options.health, 1);
+    this._balance = options.balance;
 
     /*
 
@@ -31,23 +32,25 @@ module.exports = class Nation {
 
   }
 
-  get uid() {
+  getUid() { return this._uid; }
 
-    return this._uid;
+  getName() { return this._name; }
 
-  }
+  getPresident() { return this._president; }
 
-  get name() {
+  getMilitaryPopulation() { return this._militaryPopulation; }
 
-    return this._name;
+  getPopulation() { return this._population; }
 
-  }
+  getBalance() { return this._balance; }
 
-  get militaryPopulation() {
+  getCities() { return this._cities; }
 
-    return this._militaryPopulation;
+  getCapital() { return this._capital; }
 
-  }
+  getHealth() { return this._health; }
+
+  getEducation() { return this._education; }
 
   getScouts() {
 
@@ -68,6 +71,23 @@ module.exports = class Nation {
       return city.name === name;
 
     })[0];
+
+  }
+
+  toDocument() {
+
+    return {
+      uid: this.getUid(),
+      name: this.getName(),
+      president: this.getPresident(),
+      cities: this.getCities(),
+      capital: this.getCapital(),
+      population: this.getPopulation().getValue(),
+      militaryPopulation: this.getMilitaryPopulation().getValue(),
+      health: this.getHealth().getValue(),
+      education: this.getEducation().getValue(),
+      balance: this.getBalance()
+    }
 
   }
 

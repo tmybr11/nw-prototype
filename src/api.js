@@ -20,13 +20,13 @@ router.get('/nation', (req, res) => {
 
 });
 
-router.get('/nation/find/:id', (req, res) => {
+router.get('/nation/find/:uid', (req, res) => {
 
   let nations = req.db.get('nations');
 
-  if(req.params.id.length != 24) throw('Invalid ID provided!');
+  if(req.params.uid.length != 128) throw('Invalid UID provided!');
 
-  nations.find({_id: req.params.id}, (err, data) => {
+  nations.find({uid: req.params.uid}, (err, data) => {
 
     res.send(data);
 
@@ -53,10 +53,17 @@ router.post('/nation/create', (req, res) => {
   let nation = new Nation({
     name: req.body.name,
     president: req.body.president,
-    cities: req.body.cities
-  }, config.game);
+    cities: req.body.cities,
+    population: config.game.initial_population,
+    militaryPopulation: config.game.initial_military_population,
+    education: config.game.initial_education,
+    health: config.game.initial_health,
+    balance: config.game.initial_balance
+  });
 
-  nations.insert(nation);
+  nations.insert(nation.toDocument());
+
+  res.send('Created!');
 
 });
 
@@ -65,17 +72,17 @@ router.get('/battle/:att/:def', (req, res) => {
   let nations = req.db.get('nations');
   let battles = req.db.get('battles');
 
-  nations.find({_id: req.params.att}, (err, att) => {
+  nations.findOne({uid: req.params.att}, (err, att) => {
 
-    let attacker = att;
+    let attacker = new Nation(att);
 
     if(!err) {
 
-      nations.find({_id: req.params.def}, (err, def) => {
+      nations.findOne({uid: req.params.def}, (err, def) => {
 
         if(err) throw('Defender not found!');
 
-        let defender = def;
+        let defender = new Nation(def);
         let battle = new Battle(attacker, defender);
 
         res.send(battle.start());
