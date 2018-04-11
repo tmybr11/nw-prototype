@@ -2,29 +2,28 @@
 'use strict';
 
 //Vendors
-const app = require('express')();
+const express = require('express');
+const app = express();
+const expressLayouts = require('express-ejs-layouts');
 const bodyParser = require('body-parser');
 
 //Utilities
 const api = require('./src/api.js');
 const config = require('./src/config.js');
-const db = require('monk')(config.db.mongo_url);
+const db = require('monk')(config.db.mongo_url, {poolSize: 15});
 
 //Models
 const Battle = require('./src/model/battle.js');
 const Nation = require('./src/model/nation.js');
 
-// //Controllers
+// Controllers
 // const NationController = require('./src/controller/nation-controller.js');
 
+app.set('view engine', 'ejs');
+//app.use(expressLayouts);
+app.use(express.static('public'));
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({extended: true}));
-
-app.get('/', (req, res) => {
-
-  console.log('heyhey');
-
-});
+app.use(bodyParser.urlencoded({extended: true}));
 
 db.then(() => {
 
@@ -32,6 +31,12 @@ db.then(() => {
 
     req.db = db;
     next();
+
+  });
+
+  app.get('/', (req, res) => {
+
+    res.render('index');
 
   });
 

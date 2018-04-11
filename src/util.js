@@ -18,12 +18,6 @@ module.exports = {
 
     return ((Math.random() * max) + min);
 
-  },
-
-  parseConfig: data => {
-
-    return data.toString().trim().split('\n');
-
   }
 
 };

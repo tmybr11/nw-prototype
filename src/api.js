@@ -36,13 +36,7 @@ router.get('/nation/find/:uid', (req, res) => {
 
 router.get('/nation/playground', (req, res) => {
 
-  let nations = req.db.get('nations');
-
-  nations.find({name: 'abcd'}, (err, data) => {
-
-    res.send(data.getname());
-
-  });
+  res.send('abcdef');
 
 });
 

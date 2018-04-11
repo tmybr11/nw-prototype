@@ -87,7 +87,7 @@ module.exports = class Nation {
       health: this.getHealth().getValue(),
       education: this.getEducation().getValue(),
       balance: this.getBalance()
-    }
+    };
 
   }
 
