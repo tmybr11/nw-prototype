@@ -4,9 +4,17 @@
 const app = require('express');
 const router = app.Router();
 const config = require('./config.js');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const Nation = require('./model/nation.js');
 const Battle = require('./model/battle.js');
+
+router.post('/user/create', (req, res) => {
+
+
+
+});
 
 router.get('/nation', (req, res) => {
 

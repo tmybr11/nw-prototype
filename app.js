@@ -4,7 +4,6 @@
 //Vendors
 const express = require('express');
 const app = express();
-const expressLayouts = require('express-ejs-layouts');
 const bodyParser = require('body-parser');
 
 //Utilities
@@ -19,9 +18,6 @@ const Nation = require('./src/model/nation.js');
 // Controllers
 // const NationController = require('./src/controller/nation-controller.js');
 
-app.set('view engine', 'ejs');
-//app.use(expressLayouts);
-app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -29,14 +25,9 @@ db.then(() => {
 
   app.use((req, res, next) => {
 
+    req.key = process.env.KEY;
     req.db = db;
     next();
-
-  });
-
-  app.get('/', (req, res) => {
-
-    res.render('index');
 
   });
 
